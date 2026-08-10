@@ -7,10 +7,6 @@ import { Component } from 'react';
 import Spinner from '../spinner/Spinner';
 
 class RandomChar extends Component {
-  constructor(props) {
-    super(props);
-    this.updateChar();
-  }
   state = {
     char: {},
     loading: true,
@@ -18,6 +14,15 @@ class RandomChar extends Component {
   };
 
   marvelService = new MarvelService();
+
+  componentDidMount() {
+    console.log('componentDidMount');
+    this.updateChar();
+  }
+
+  componentWillUnmount() {
+    console.log('unmount');
+  }
 
   onCharLoaded = (char) => {
     this.setState({ char, loading: false });
@@ -28,11 +33,14 @@ class RandomChar extends Component {
   };
 
   updateChar = () => {
+    this.setState({ loading: true });
+    console.log('updateChar');
     const id = Math.floor(Math.random() * 20);
     this.marvelService.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
   };
 
   render() {
+    console.log('render');
     const { char, loading, error } = this.state;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
@@ -48,7 +56,7 @@ class RandomChar extends Component {
             Do you want to get to know him better?
           </p>
           <p className="randomchar__title">Or choose another one</p>
-          <button className="button button__main">
+          <button onClick={this.updateChar} className="button button__main">
             <div className="inner">try it</div>
           </button>
           <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
