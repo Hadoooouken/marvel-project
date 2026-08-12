@@ -18,6 +18,7 @@ class RandomChar extends Component {
   componentDidMount() {
     console.log('componentDidMount');
     this.updateChar();
+    
   }
 
   componentWillUnmount() {
