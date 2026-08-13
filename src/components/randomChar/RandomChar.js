@@ -39,13 +39,11 @@ class RandomChar extends Component {
 
   updateChar = () => {
     this.onCharLoading();
-    console.log('updateChar');
     const id = Math.floor(Math.random() * 20);
     this.marvelService.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
   };
 
   render() {
-    console.log('render');
     const { char, loading, error } = this.state;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
