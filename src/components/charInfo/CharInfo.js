@@ -1,76 +1,70 @@
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import './charInfo.scss';
 import errorGif from '../errorMessage/error.gif';
 import MarvelService from '../../services/MarvelService';
-import { Component } from 'react';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
+const marvelService = new MarvelService();
 
-class CharInfo extends Component {
-  state = {
-    char: null,
-    loading: false,
-    error: false,
-  };
+const CharInfo = ({ charId }) => {
+  const [char, setChar] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  marvelService = new MarvelService();
+  useEffect(() => {
+    updateChar();
+  }, [charId]);
 
-  componentDidMount() {
-    this.updateChar();
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.charId !== prevProps.charId) {
+  //     this.updateChar();
+  //   }
+  // }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.charId !== prevProps.charId) {
-      this.updateChar();
-    }
-  }
-
- 
-  updateChar = () => {
-    const { charId } = this.props;
+  const updateChar = () => {
     if (!charId) {
       return;
     }
-    this.onCharLoading();
-    this.marvelService.getCharacter(charId).then(this.onCharLoaded).catch(this.onError) 
+    onCharLoading();
+    marvelService.getCharacter(charId).then(onCharLoaded).catch(onError);
   };
 
-  onCharLoaded = (char) => {
-    this.setState({ char, loading: false });
+  const onCharLoaded = (char) => {
+    setChar(char);
+    setLoading(false);
   };
 
-  onCharLoading = () => {
-    this.setState({ loading: true });
+  const onCharLoading = () => {
+    setLoading(true);
   };
 
-  onError = () => {
-    this.setState({ loading: false, error: true });
+  const onError = () => {
+    setLoading(false);
+    setError(true);
   };
 
-  onImageError = (e) => {
+  const onImageError = (e) => {
     e.target.src = errorGif;
   };
 
-  render() {
-    const { char, loading, error } = this.state;
-    const skeleton = char || loading || error ? null : <Skeleton />;
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    // const content = !(loading || error || !char) ? <View char={char} /> : null;
-    const content = !(loading || error || !char) ? (
-      <View char={char} onImageError={this.onImageError} />
-    ) : null;
+  const skeleton = char || loading || error ? null : <Skeleton />;
+  const errorMessage = error ? <ErrorMessage /> : null;
+  const spinner = loading ? <Spinner /> : null;
+  const content = !(loading || error || !char) ? (
+    <View char={char} onImageError={onImageError} />
+  ) : null;
 
-    return (
-      <div className="char__info">
-        {skeleton}
-        {errorMessage}
-        {spinner}
-        {content}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="char__info">
+      {skeleton}
+      {errorMessage}
+      {spinner}
+      {content}
+    </div>
+  );
+};
 
 const View = ({ char, onImageError }) => {
   const { name, description, thumbnail, homePage, wiki, comics } = char;
@@ -104,6 +98,10 @@ const View = ({ char, onImageError }) => {
       </ul>
     </>
   );
+};
+
+CharInfo.propTypes = {
+  charId: PropTypes.number,
 };
 
 export default CharInfo;
