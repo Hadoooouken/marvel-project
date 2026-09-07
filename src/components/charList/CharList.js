@@ -3,35 +3,28 @@ import errorGif from '../errorMessage/error.gif';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
-import MarvelService from '../../services/MarvelService';
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import useMarvelService from '../../services/MarvelService';
+
 
 const CharList = (props) => {
   const [charList, setCharList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(0);
   const [charEnded, setCharEnded] = useState(false);
-
+  const {loading, error, getAllCharacters } = useMarvelService();
   const itemRefs = useRef([]);
-  const marvelService = new MarvelService();
+
 
   useEffect(() => {
-    onRequest();
-  },[]);
+    onRequest(offset, true);
+  }, []);
 
-  const onRequest = (offset) => {
-    onCharListLoading();
-    marvelService
-      .getAllCharacters(offset)
-      .then((res) => setHeroList(res))
-      .catch(onError);
-  };
-
-  const onCharListLoading = () => {
-    setNewItemLoading(true);
+  const onRequest = (offset, initial) => {
+    initial ?  setNewItemLoading(false) :  setNewItemLoading(true);
+   
+    getAllCharacters(offset).then((res) => setHeroList(res));
   };
 
   const setHeroList = (newCharList) => {
@@ -41,7 +34,6 @@ const CharList = (props) => {
     }
 
     setCharList((charList) => [...charList, ...newCharList]);
-    setLoading(false);
     setNewItemLoading(false);
     setOffset((offset) => offset + 9);
     setCharEnded(ended);
@@ -50,12 +42,7 @@ const CharList = (props) => {
   const onImageError = (e) => {
     e.target.src = errorGif;
   };
-
-  const onError = () => {
-    setLoading(false);
-    setError(true);
-  };
-
+  
   const focusOnItem = (id) => {
     itemRefs.current.forEach((item) => item.classList.remove('char__item_selected'));
     itemRefs.current[id].classList.add('char__item_selected');
@@ -80,13 +67,14 @@ const CharList = (props) => {
   });
 
   const errorMessage = error ? <ErrorMessage /> : null;
-  const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error) ? heroList : null;
+  const spinner = loading && !newItemLoading ? <Spinner /> : null;
+  // const content = !(loading || error) ? heroList : null;
 
   return (
     <div className="char__list">
       <ul className="char__grid">
-        {errorMessage} {spinner} {content}
+        {errorMessage} {spinner} 
+        {heroList}
       </ul>
       <button
         className="button button__main button__long"
