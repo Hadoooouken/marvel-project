@@ -38,6 +38,7 @@ const CharList = (props) => {
     setOffset((offset) => offset + 9);
     setCharEnded(ended);
   };
+  console.log('charlist');
 
   const onImageError = (e) => {
     e.target.src = errorGif;

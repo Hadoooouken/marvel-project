@@ -5,11 +5,11 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
 const ComicsList = () => {
-  const { loading, error, getAllComics } = useMarvelService();
+  const {loading, error, getAllComics } = useMarvelService();
   const [comicsList, setComicsList] = useState([]);
   const [offset, setOffset] = useState(0);
   const [comicsEnded, setComicsEnded] = useState(false);
-  const [newItemLoading, setNewItemLoading] = useState(false);
+  const [newItemLoading, setNewItemLoading] = useState(false)
 
   useEffect(() => {
     onRequest(offset, true);

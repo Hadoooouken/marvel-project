@@ -8,25 +8,20 @@ import Spinner from '../spinner/Spinner';
 import useMarvelService from '../../services/MarvelService';
 
 const RandomChar = () => {
-  console.log(useMarvelService())
   const [char, setChar] = useState({});
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(false);
-  // const marvelService = 
-  const {loading, error, getCharacter, clearError} = useMarvelService();
+
+  const { loading, error, getCharacter, clearError } = useMarvelService();
   useEffect(() => {
     updateChar();
   }, []);
 
   const onCharLoaded = (char) => {
     setChar(char);
-  
   };
 
-
   const updateChar = () => {
-    clearError()
-    const id = Math.floor(Math.random() * 20);
+    clearError();
+    const id = Math.floor(Math.random() * 20) + 1;
     getCharacter(id).then(onCharLoaded);
   };
 
@@ -83,4 +78,3 @@ const View = ({ char }) => {
 };
 
 export default RandomChar;
-
