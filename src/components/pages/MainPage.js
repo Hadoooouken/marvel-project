@@ -3,7 +3,8 @@ import CharList from '../charList/CharList';
 import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 import RandomChar from '../randomChar/RandomChar';
 import decoration from '../../resources/img/vision.png';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import CharForm from '../charForm/CharForm';
 
 const MainPage = () => {
   const [selectedChar, setChar] = useState(null);
@@ -11,6 +12,7 @@ const MainPage = () => {
   const onCharSelected = (id) => {
     setChar(id);
   };
+
   return (
     <>
       <ErrorBoundary>
@@ -21,14 +23,16 @@ const MainPage = () => {
         <ErrorBoundary>
           <CharList onCharSelected={onCharSelected} />
         </ErrorBoundary>
-
-        <ErrorBoundary>
-          <CharInfo charId={+selectedChar} />
-        </ErrorBoundary>
+        <div className="char__wrapper">
+          <ErrorBoundary>
+            <CharInfo charId={+selectedChar} />
+          </ErrorBoundary>
+          <CharForm />
+        </div>
       </div>
       <img className="bg-decoration" src={decoration} alt="vision" />
     </>
   );
 };
 
-export default MainPage
+export default MainPage;

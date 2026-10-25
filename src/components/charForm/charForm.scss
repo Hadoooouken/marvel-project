@@ -1,0 +1,58 @@
+@import '../../style/variables.scss';
+
+.search-char-form {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  padding: 25px;
+  max-width: 425px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 5;
+  background-color: #fff;
+
+  &__wrapper {
+    display: flex;
+    column-gap: 24px;
+    margin-block-end: 25px;
+  }
+
+  &__text {
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+    margin-block-end: 18px;
+  }
+  &__input {
+    align-self: start;
+    padding: 0.625rem;
+    width: 250px;
+    border: none;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    background: #fff;
+  }
+
+  &__button-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+
+  &__input-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+  }
+}
+
+.error {
+  font-weight: 700;
+  font-size: 18px;
+  color: #9f0013;
+}
+
+.success {
+  font-weight: 700;
+  font-size: 18px;
+  color: #03710e;
+}

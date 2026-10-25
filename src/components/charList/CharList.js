@@ -3,9 +3,12 @@ import errorGif from '../errorMessage/error.gif';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
-import React, { useState, useEffect, useRef } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import useMarvelService from '../../services/MarvelService';
+
+
+
 
 
 const CharList = (props) => {
@@ -69,6 +72,13 @@ const CharList = (props) => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
+
+  if(loading) {
+    import('./someFunkc.js')
+    .then(obj => obj.logger())
+   
+
+  }
   // const content = !(loading || error) ? heroList : null;
 
   return (
