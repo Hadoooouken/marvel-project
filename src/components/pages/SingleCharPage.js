@@ -1,5 +1,5 @@
 import './singleComicPage.scss';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import errorGif from '../errorMessage/error.gif';
 import Spinner from '../spinner/Spinner';
@@ -7,6 +7,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import banner from '../../resources/img/Banner.jpg';
 
 import useMarvelService from '../../services/MarvelService';
+import { Helmet } from 'react-helmet';
 
 const SingleCharPage = () => {
   const { charId } = useParams();
@@ -49,6 +50,10 @@ const View = ({ char, onImageError }) => {
   const { name, description, thumbnail } = char;
   return (
     <>
+      <Helmet>
+        <meta name="description" content={`${name} character`} />
+        <title>{name}</title>
+      </Helmet>
       <img src={banner} alt="banner" />
       <div className="single-comic">
         <img src={thumbnail} alt={name} className="single-char__img" onError={onImageError} />

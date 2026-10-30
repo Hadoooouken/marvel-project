@@ -5,6 +5,7 @@ import RandomChar from '../randomChar/RandomChar';
 import decoration from '../../resources/img/vision.png';
 import { useEffect, useRef, useState } from 'react';
 import CharForm from '../charForm/CharForm';
+import { Helmet } from 'react-helmet';
 
 const MainPage = () => {
   const [selectedChar, setChar] = useState(null);
@@ -15,6 +16,10 @@ const MainPage = () => {
 
   return (
     <>
+      <Helmet>
+        <meta name="description" content="Marvel information portal" />
+        <title>Marvel information portal</title>
+      </Helmet>
       <ErrorBoundary>
         <RandomChar />
       </ErrorBoundary>
@@ -27,7 +32,9 @@ const MainPage = () => {
           <ErrorBoundary>
             <CharInfo charId={+selectedChar} />
           </ErrorBoundary>
-          <CharForm />
+          <ErrorBoundary>
+            <CharForm />
+          </ErrorBoundary>
         </div>
       </div>
       <img className="bg-decoration" src={decoration} alt="vision" />

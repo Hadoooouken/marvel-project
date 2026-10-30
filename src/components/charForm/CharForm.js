@@ -20,14 +20,14 @@ const CharForm = () => {
 
   const onSubmit = (data) => {
     setError('');
-    setChar('');
+    setChar(null);
     const { findCharInputValue } = data;
 
     getCharacterByName(findCharInputValue)
       .then((res) => {
         setChar(res);
         console.log(res);
-        reset()
+        reset();
       })
       .catch((error) => setError(error.message));
   };
@@ -71,7 +71,7 @@ const CharForm = () => {
             <div className="inner">FIND</div>
           </button>
           {char && (
-            <Link to={`/z/${char.id}`} className="button button__secondary">
+            <Link to={`/character/${char.id}`} className="button button__secondary">
               <div className="inner">TO PAGE</div>
             </Link>
           )}
